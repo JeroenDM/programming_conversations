@@ -3,5 +3,13 @@ name = "programming_conversations"
 version = "0.1.0"
 edition = "2021"
 
+[[bin]]
+name = "main"
+path = "src/main.rs"
+
+[[bin]]
+name = "fortran"
+path = "src/fortran.rs"
+
 [dependencies]
 itertools = "0.13.0"
