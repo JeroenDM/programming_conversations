@@ -61,6 +61,35 @@ impl fmt::Display for BiGram {
     }
 }
 
+fn unique_copy_with_count<T>(v: Vec<T>) -> Vec<(usize, T)>
+where
+    T: PartialEq + Clone
+{
+    let mut res = Vec::new();
+    if v.len() == 0 {
+        return res;
+    }
+    let mut i = 0;
+    let mut n = 0;
+    let mut current = &v[i];
+
+    res.push((1, v[0].clone()));
+    i += 1;
+
+    while i < v.len() {
+        if v[i] != *current {
+            res.push((1, v[i].clone()));
+            n += 1;
+            current = &v[i]
+        } else {
+            let p = &res[n];
+            res[n] = (p.0 + 1, p.1.clone());
+        }
+        i += 1;
+    }
+    return res;
+}
+
 fn main() {
     let filename = "data/pandp.txt";
     let content = fs::read_to_string(filename).expect("Failed to read book.");
@@ -81,13 +110,14 @@ fn main() {
     // }
 
     // replace this with algorithm, not hashmap
-    let cnt : HashMap::<BiGram, usize> = bigrams.iter().copied().counts(); 
+    // let cnt: HashMap<BiGram, usize> = bigrams.iter().copied().counts();
+    let cnt = unique_copy_with_count(bigrams);
 
     let mut sorted = cnt.into_iter().collect::<Vec<_>>();
-    sorted.sort_by(|x, y| y.1.cmp(&x.1));
+    sorted.sort_by(|x, y| y.0.cmp(&x.0));
 
     for (key, value) in sorted.iter().take(10) {
-        println!("{: <20} {}", format!("{}:", &key), &value);
+        println!("{: <20} {}", format!("{}:", &value), &key);
     }
 
     //
@@ -95,4 +125,19 @@ fn main() {
     // for (x, y) in a.iter().tuple_windows() {
     //     println!("{} -- {}", x, y);
     // }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::unique_copy_with_count;
+
+
+    #[test]
+    fn test_unique_1() {
+
+        let input = vec![1, 1, 2, 3, 4, 4, 4];
+        let res = unique_copy_with_count(input);
+        assert_eq!(res, vec![(2, 1), (1, 2), (1, 3), (3, 4)]);
+        
+    }
 }
