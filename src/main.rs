@@ -1,8 +1,9 @@
 #![feature(iter_map_windows)]
 #![feature(hash_set_entry)]
+
 use std::{
     collections::{HashMap, HashSet},
-    fs,
+    env, fs,
 };
 
 use itertools::Itertools;
@@ -98,5 +99,11 @@ fn bigram_with_extra_set(filename: &str) {
 
 fn main() {
     // bigram_v1("data/pandp.txt");
-    bigram_with_extra_set("data/pandp.txt");
+    let args: Vec<String> = env::args().collect();
+    if args.len() != 2 {
+        println!("usage: binary <filename>")
+    } else {
+        bigram_v1(&args[1]);
+        bigram_with_extra_set(&args[1]);
+    }
 }

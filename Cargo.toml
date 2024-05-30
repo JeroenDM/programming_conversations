@@ -11,5 +11,13 @@ path = "src/main.rs"
 name = "fortran"
 path = "src/fortran.rs"
 
+[[bin]]
+name = "binary"
+path = "src/binary.rs"
+
+[[bin]]
+name = "smalltalk"
+path = "src/smalltalk.rs"
+
 [dependencies]
 itertools = "0.13.0"

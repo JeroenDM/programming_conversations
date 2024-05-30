@@ -1,4 +1,3 @@
-use std::collections::HashMap;
 use std::fmt;
 use std::fs;
 
@@ -63,7 +62,7 @@ impl fmt::Display for BiGram {
 
 fn unique_copy_with_count<T>(v: Vec<T>) -> Vec<(usize, T)>
 where
-    T: PartialEq + Clone
+    T: PartialEq + Clone,
 {
     let mut res = Vec::new();
     if v.len() == 0 {
@@ -131,13 +130,10 @@ fn main() {
 mod tests {
     use crate::unique_copy_with_count;
 
-
     #[test]
     fn test_unique_1() {
-
         let input = vec![1, 1, 2, 3, 4, 4, 4];
         let res = unique_copy_with_count(input);
         assert_eq!(res, vec![(2, 1), (1, 2), (1, 3), (3, 4)]);
-        
     }
 }
