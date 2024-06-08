@@ -16,8 +16,15 @@ name = "binary"
 path = "src/binary.rs"
 
 [[bin]]
+name = "trymemmap"
+path = "src/trymemmap.rs"
+
+
+
+[[bin]]
 name = "smalltalk"
 path = "src/smalltalk.rs"
 
 [dependencies]
 itertools = "0.13.0"
+memmap2 = "0.9.4"
