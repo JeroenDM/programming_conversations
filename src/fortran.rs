@@ -1,3 +1,4 @@
+use std::env;
 use std::fmt;
 use std::fs;
 
@@ -12,11 +13,17 @@ struct Chunk<const SIZE: usize> {
 }
 
 impl<const S: usize> Chunk<S> {
+    ///
+    /// Truncate string into byte array of length S.
+    ///
     fn from(x: &str) -> Self {
+        // pre-fill with null terminator
         let mut chunk = Chunk { data: [IGNORE; S] };
+
         for (i, c) in x.chars().take(S).enumerate() {
             chunk.data[i] = c;
         }
+
         chunk
     }
 }
@@ -49,8 +56,8 @@ struct BiGram {
 }
 
 impl BiGram {
-    fn from(t: (Chunk8, Chunk8)) -> Self {
-        Self { w1: t.0, w2: t.1 }
+    fn from(x: (Chunk8, Chunk8)) -> Self {
+        Self { w1: x.0, w2: x.1 }
     }
 }
 
@@ -89,10 +96,9 @@ where
     return res;
 }
 
-fn main() {
-    let filename = "data/pandp.txt";
+fn bigram_truncate_words(filename: &str) {
     let content = fs::read_to_string(filename).expect("Failed to read book.");
-    // println!("Read {} characters.", content.len());
+    println!("Read {} characters.", content.len());
 
     let mut bigrams: Vec<BiGram> = content
         .split_whitespace()
@@ -124,6 +130,15 @@ fn main() {
     // for (x, y) in a.iter().tuple_windows() {
     //     println!("{} -- {}", x, y);
     // }
+}
+
+fn main() {
+    let args: Vec<String> = env::args().collect();
+    if args.len() != 2 {
+        println!("usage: binary <filename>")
+    } else {
+        bigram_truncate_words(&args[1]);
+    }
 }
 
 #[cfg(test)]

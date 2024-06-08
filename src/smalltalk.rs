@@ -15,6 +15,7 @@ struct MyPair<'a> {
 
 fn bigram_with_extra_set(filename: &str) {
     let content = fs::read_to_string(filename).expect("Failed to read book.");
+    println!("Read {} characters.", content.len());
 
     // The approach consists of 4 step:
     // 1. Collect all unique words in a vector.
@@ -44,7 +45,7 @@ fn bigram_with_extra_set(filename: &str) {
     sorted.sort_by(|x, y| y.1.cmp(&x.1));
 
     println!("Found {} bigrams.", sorted.len());
-    for (k, v) in sorted.iter().take(250) {
+    for (k, v) in sorted.iter().take(10) {
         println!("{: <18} {}", format!("{} {} :", k.s1, k.s2), v);
     }
 }
